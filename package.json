@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "dev": "webpack-dev-server --config webpack.dev.js",
     "start": "npm run dev",
     "build": "webpack --config webpack.prod.js"
   },
@@ -25,6 +25,8 @@
     "css-loader": "^5.0.0",
     "file-loader": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.2",
     "lodash": "^4.17.20",
     "style-loader": "^2.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
@@ -33,5 +35,7 @@
     "webpack-dev-server": "^3.5.1",
     "webpack-merge": "^5.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.5.1"
+  }
 }

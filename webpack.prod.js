@@ -9,6 +9,7 @@ module.exports = merge(config,{
 		new UglifyJSPlugin({
 			sourceMap: true
 		}),  // 压缩js
+		new webpack.HashedModuleIdsPlugin(),  // 打包的时候控制文件名
 		new CleanWebpackPlugin(),  // 清除dist
 		new webpack.DefinePlugin({
 		    'process.env.NODE_ENV': JSON.stringify('production')
