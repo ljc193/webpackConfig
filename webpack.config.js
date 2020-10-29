@@ -1,87 +1,121 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');  // 压缩重新生成html，会自动匹配对应的js
+const HtmlPlugin = require('html-webpack-plugin');  // 压缩重新生成html
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');  // 分离css
 const webpack = require('webpack');
-module.exports = {
-	entry: {
-		main: './src/index.js',
-		vender:[
-			'lodash',
-			'jquery'
-		]
-		
-	},
+const menuList = require('./src/assets/js/menu.js');
+const isProd = (process.env.NODE_ENV === 'prod');
+
+let entry = {};  // 入口文件
+let plugins = [];  // 插件
+menuList.forEach(page=>{
+	entry[page.url] = path.resolve(__dirname, `./src/pages/${page.url}/index.js`);  // 配置每页的入口文件
+	let chunks = [page.url];
+	if(isProd) {
+		 chunks.splice(0, 0, 'assets');
+		 chunks.splice(0, 0, 'vendors');
+	}
+	plugins.push(
+		new HtmlPlugin({   // 打包html
+			favicon: path.resolve(__dirname, `./src/assets/img/favicon.png`),  // 打包每页的图标
+			filename: path.resolve(__dirname, `./dist/${page.url}.html`),  // 生成模板名字
+			template: path.resolve(__dirname, `./src/pages/${page.url}/index.html`),  // 模板来源
+			chunks: chunks,       // 引入的模块，这里指定的是entry中设置多个js时，在这里指定引入的js，不设置默认全部引用
+			chunksSortMode: 'auto',  // 插入chunk排序
+			minify: isProd ? {         // 开发环境不配置压缩
+			    collapseWhitespace: true, // 去除空格
+			    removeComments: true  // 去除注释
+			} : false
+		}),
+	)
+})
+
+/*
+*  分离css配置
+* */
+plugins.push(
+	new MiniCssExtractPlugin({
+		filename: 'css/' + (isProd ? '[name].[contenthash:8].min.css' : '[name].css'), // contenthash 同一个模块只有修改了这个文件hash才会变
+		chunkFilename: 'css/' + (isProd ? '[name].chunk.[contenthash:8].min.css' : '[name].chunk.css'),
+	})
+);
+
+
+module.exports = {     // 导出配置
+	entry: entry,
 	output: {
-		filename: "[name].[chunkhash].js",  // 入口文件名称
-		// chunkFilename: '[name].chunk.js', // 非入口 chunk 的名称
-		path:path.resolve(__dirname,"./dist")
+		path: path.resolve(__dirname, './dist'),
+		filename: 'js/' + (isProd ? '[name].[chunkhash:8].min.js' : '[name].js'),
+		chunkFilename: 'js/' + (isProd ? '[name].chunk.[chunkhash:8].min.js' : '[name].chunk.js'),
 	},
-	 performance: {
+	performance: {       // 打包性能提示
 		hints:false
 	},
-	optimization: {       // 代码分离配置
-		splitChunks: {
-			cacheGroups: {
-				lodash: {
-					name: "lodash",
-					chunks: "initial",  // 有三个可选值，”initial”, “async” 和 “all”. 分别对应优化时只选择初始的chunks，所需要的chunks 还是所有chunks 。
-					minChunks: 2  // 是split前，有共享模块的chunks的最小数目 ，默认值是1
-				},
-				jquery: {
-					name: "jquery",
-					chunks: "initial",  // 有三个可选值，”initial”, “async” 和 “all”. 分别对应优化时只选择初始的chunks，所需要的chunks 还是所有chunks 。
-					minChunks: 2  // 是split前，有共享模块的chunks的最小数目 ，默认值是1
-				},
-			}
-		}
-	},
-    plugins: [
-		new HtmlWebpackPlugin({   // 重载html
-		  title: 'Output Management'
-		}),
-		new webpack.ProvidePlugin({   // 全局变量
-		   _: 'lodash',
-		   $:'jquery',
-		   jQuery:'jquery'
-		})
-    ],
-	 module: {
+	plugins: [
+		 ...plugins
+	],
+	module: {
 	    rules: [
-	       {
-				 test: /\.css$/,  // 处理css
-				 use: [
-				   'style-loader',
-				   'css-loader'
-				 ]
-	       },
-		   {
-				 test: /\.less$/,  // 处理less
-				 use: [
-				   'style-loader',
-				   'css-loader',
-				   'less-loader'
-				 ]
+			{       // 映射jquery
+			    test: require.resolve('jquery'),
+			    use: [{
+			        loader: 'expose-loader',
+			        options: 'jQuery'
+			    }, {
+			        loader: 'expose-loader',
+			        options: '$'
+			    }]
+			},
+			{ 
+			    test: /\.(html|htm)$/,           // 打包html图片资源
+			    use: ['html-withimg-loader']
+			},
+			{
+			    test: /\.(css)$/,
+			    use: [isProd ? ({
+			        loader: MiniCssExtractPlugin.loader,
+			        options: {
+			            publicPath: '../'
+			        }
+			    }) : 'style-loader', 'css-loader']
+			},
+			{                            // 配置编译less
+				 test: /\.(less)$/,
+				 use: [isProd ? ({
+				     loader: MiniCssExtractPlugin.loader,
+				     options: {
+				         publicPath: '../'
+				     }
+				 }) : 'style-loader', 'css-loader', {
+				     loader: 'postcss-loader',
+				     options: {
+				         plugins: function () {
+				             return [
+				                 require('autoprefixer')
+				             ];
+				         }
+				     }
+				 }, 'less-loader']
 		   },
 		   {
 				test:/\.js$/,//正则匹配所有以.js结尾的文件
 				exclude: /(node_modules)/,
 				use: {
-					loader: "babel-loader"
+				    loader: 'babel-loader',
+				    options: {
+				        presets: ['es2015-nostrict'],
+				        plugins: ['transform-runtime']
+				    }
 				}
 			},
 		   {
-				 test:/\.(png|svg|jpg|gif)$/,  // 处理图片
-				 use: [
-					 'file-loader'
-				 ]
+				test: /\.(png|jpg|jpe?g|gif)$/,
+				use: ['url-loader?limit=4096&name=[name]' + (isProd ? '.[hash:8]' : '') + '.[ext]&outputPath=img/', 'image-webpack-loader']
 		   },
 		   {
-				test: /\.(woff|woff2|eot|ttf|otf)$/,  // 处理字体文件
-				use: [
-				  'file-loader'
-				]
-		    }
+		       test: /\.(svg|woff|woff2|ttf|eot)(\?.*$|$)/,
+		       loader: 'file-loader?name=font/[name].[hash:8].[ext]'
+		   }
 		   
 	    ]
-	},
-	mode: "production"
+	}
 }
