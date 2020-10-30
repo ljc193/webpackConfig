@@ -78,24 +78,24 @@ module.exports = {     // 导出配置
 			        }
 			    }) : 'style-loader', 'css-loader']
 			},
-			{                            // 配置编译less
-				 test: /\.(less)$/,
-				 use: [isProd ? ({
-				     loader: MiniCssExtractPlugin.loader,
-				     options: {
-				         publicPath: '../'
-				     }
-				 }) : 'style-loader', 'css-loader', {
-				     loader: 'postcss-loader',
-				     options: {
-				         plugins: function () {
-				             return [
-				                 require('autoprefixer')
-				             ];
-				         }
-				     }
-				 }, 'less-loader']
-		   },
+			{
+			    test: /\.(scss)$/,
+			    use: [isProd ? ({
+			        loader: MiniCssExtractPlugin.loader,
+			        options: {
+			            publicPath: '../'
+			        }
+			    }) : 'style-loader', 'css-loader', {
+			        loader: 'postcss-loader',
+			        options: {
+			            plugins: function () {
+			                return [
+			                    require('autoprefixer')
+			                ];
+			            }
+			        }
+			    }, 'sass-loader']
+			},
 		   {
 				test:/\.js$/,//正则匹配所有以.js结尾的文件
 				exclude: /(node_modules)/,

@@ -3,4 +3,4 @@ import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 
 
-import './css/app.less';
+import './css/app.scss';
