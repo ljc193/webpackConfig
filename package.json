@@ -34,7 +34,7 @@
     "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^1.2.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "postcss-loader": "^4.0.4",
+    "postcss-loader": "^2.1.6",
     "style-loader": "^2.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.1",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.3",
-    "expose-loader": "^1.0.1",
+    "expose-loader": "^0.7.5",
     "jquery": "^3.5.1"
   }
 }
