@@ -1,0 +1,85 @@
+.projects_wrapper {
+	padding: 0 .9rem;
+	padding-top: .28rem;
+	height: 100%;
+	box-sizing: border-box;
+	position: relative;
+	&-tab_container {
+		background-color: #fff;
+		position: fixed;
+		top: 1.8rem;
+		z-index: 99;
+		left: .9rem;
+		right: .9rem;
+		.flex_wrappers {
+			display: flex;
+			padding: .28rem 0;
+			justify-content: space-between;
+			align-items: center;
+		}
+		&-left {
+			ul {
+				li {
+					display: inline-block;
+					margin-right: .75rem;
+					color: #222328;
+					padding: 0 0.02rem;
+					padding-bottom: 0.08rem;
+					cursor: pointer;
+				}
+			}
+			.tab_active {
+				font-weight: 600;
+				border-bottom: .03rem solid #000;
+			}
+		}
+		&-right {
+			ul {
+				li {
+					display: inline-block;
+					color: #999;
+					cursor: pointer;
+					.title {
+						
+					}
+					.line {
+						padding: 0 0.05rem;
+					}
+				}
+			}
+			.label_active {
+				font-weight: 600;
+				color: #222328;
+			}
+		}
+	}
+	// 瀑布流
+	.content_wrapper {
+		width: 100%;
+		min-height: calc(100% - .68rem);
+		white-space: nowrap;
+		position: relative;
+		margin-top: .68rem;
+		.box {
+			padding: 10px;
+			display: inline-block;
+			vertical-align: top;
+			box-sizing: border-box;
+			overflow: hidden;
+			.boximg {
+				box-shadow: 0 0 5px #ccc;
+				border-radius: 5px;
+				overflow: hidden;
+				img {
+					width: 100%;
+					height: auto;
+					vertical-align: top;
+					transition: all .6s;
+				}
+				img:hover {
+					transform: scale(1.1);
+				}
+			}
+		}   
+	}  
+}

@@ -1,0 +1,24 @@
+.animation_wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #000;
+	width: 100%;
+	height: 100%;
+	.content {
+		width: 2.89rem;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		.line {
+			width: 0%;
+			height: .03rem;
+			background-color: #939393;
+			margin-top: .23rem;
+		}
+		img {
+			width: 100%;
+		}
+	}
+}

@@ -1,5 +1,9 @@
 var menuList = [
 	{
+		name:"引导页",
+		url:"index",
+		englishNam:"INDEX"
+	},{
 		name:"首页",
 		url:"home",
 		englishNam:"HOME"

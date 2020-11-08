@@ -1,0 +1,56 @@
+.recruit_wrapper {
+	padding: 0 .9rem;
+	margin-top: .6rem;
+	&-content{
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		&-left {
+			padding-bottom: .5rem;
+			border-bottom: 1px solid #000;
+			color: #000;
+			display: inline-block;
+			font-size: .38rem;
+			font-weight: 600;
+		}
+		&-right {
+			max-width: 5.38rem;
+			font-size: .12rem;
+			color: #000;
+			letter-spacing: 0;
+			line-height: 23px;
+			&-date {
+				font-weight: 600;
+			}
+			&-content {
+				
+			}
+		}
+	}
+	&-message {
+		margin-top: 1rem;
+		display: flex;
+		flex-wrap: wrap;
+		&-item {
+			width: 50%;
+			padding: .9rem 0 .7rem;
+			border-top: 1px solid #000;
+			&-title {
+				font-size: .36rem;
+				font-weight: 600;
+				color: #000;
+			}
+			&-describe {
+				font-size: 12px;
+				color: #000;
+				&-title {
+					font-weight: 600;
+					padding: .2rem 0;
+				}
+				&-content {
+					line-height: 40px;
+				}
+			}
+		}
+	}
+}

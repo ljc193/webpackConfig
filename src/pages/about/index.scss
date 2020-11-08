@@ -1,0 +1,52 @@
+.about_wrapper {
+	padding: 0 .9rem;
+	margin-top: .6rem;
+	.aboutUs {
+		.bottomBanner {
+			padding: 1rem 0;
+			img {
+				width: 100%;
+			}
+		}
+		.top_c {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			&-left {
+				min-width: 2.8rem;
+				.titles {
+					font-size: .38rem;
+					font-weight: 600;
+					color: #000;
+				}
+				.subtitle {
+					font-size: .38rem;
+					padding: .3rem 0 .58rem;
+					border-bottom: 1px solid #000;
+				}
+				.companyMessage {
+					margin-top: .4rem;
+					&-item {
+						display: flex;
+						align-items: center;
+						font-size: 12px;
+						margin-bottom: .1rem;
+						&-label {
+							font-weight: 600;
+						}
+						&-content {
+							white-space: nowrap;
+						}
+					}
+				}
+			}
+			&-right {
+				max-width: 7rem;
+				font-size: .12rem;
+				color: #000;
+				letter-spacing: 0;
+				line-height: 23px;
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清除dist文件
 // const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const config = require('./webpack.config.js');
-const { merge } = require('webpack-merge');
+const merge = require('webpack-merge');
 const webpack = require('webpack');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const HashOutput = require('webpack-plugin-hash-output');

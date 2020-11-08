@@ -1,1 +1,2 @@
-console.log('大佬666',_)
+import './index.scss'
+import '../../assets/Common.js';

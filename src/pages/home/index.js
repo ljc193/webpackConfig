@@ -1,3 +1,7 @@
 import './index.scss'
 import '../../assets/Common.js';
-console.log('大佬666',666,9999)
+import '../../assets/js/prototype.js'
+import './index.html';
+
+
+$("#myBanner").myBanner({ a:1,b:1 })

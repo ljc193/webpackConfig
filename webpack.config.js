@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');  // 分离css
 const webpack = require('webpack');
 const menuList = require('./src/assets/js/menu.js');
 const isProd = (process.env.NODE_ENV === 'prod');
+const autoprefixer = require('autoprefixer');
 
 let entry = {};  // 入口文件
 let plugins = [];  // 插件
@@ -66,7 +67,7 @@ module.exports = {     // 导出配置
 			    }]
 			},
 			{ 
-			    test: /\.(html|htm)$/,           // 打包html图片资源
+			    test: /\.html$/,          // 打包html图片资源
 			    use: ['html-withimg-loader']
 			},
 			{
@@ -88,11 +89,7 @@ module.exports = {     // 导出配置
 			    }) : 'style-loader', 'css-loader', {
 			        loader: 'postcss-loader',
 			        options: {
-			            plugins: function () {
-			                return [
-			                    require('autoprefixer')
-			                ];
-			            }
+			            plugins: [autoprefixer()]
 			        }
 			    }, 'sass-loader']
 			},
@@ -109,10 +106,22 @@ module.exports = {     // 导出配置
 			},
 		   {
 				test: /\.(png|jpg|jpe?g|gif)$/,
-				use: ['url-loader?limit=4096&name=[name]' + (isProd ? '.[hash:8]' : '') + '.[ext]&outputPath=img/', 'image-webpack-loader']
+				use:[{
+					loader: 'url-loader',
+					    options: {
+					       outputPath: 'img/',
+						   publicPath: './img',
+						   esModule: false, // 该项默认为true，改为false即可
+					       limit: 20*1024
+					    }  
+				}]    
 		   },
 		   {
-		       test: /\.(svg|woff|woff2|ttf|eot)(\?.*$|$)/,
+		       test: /\.(webp)$/,
+		       use: ['file-loader?&name=[name]' + (isProd ? '.[hash:8]' : '') + '.[ext]&outputPath=img/']
+		   },
+		   {
+		       test: /\.(svg|woff|woff2|ttf|eot|otf)(\?.*$|$)/,
 		       loader: 'file-loader?name=font/[name].[hash:8].[ext]'
 		   }
 		   
